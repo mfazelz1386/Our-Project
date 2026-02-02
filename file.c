@@ -1,47 +1,73 @@
 #include "file.h"
 #include <stdio.h>
 
-/* ذخیره اطلاعات در فایل */
+
 void save(table *t, const char *name) {
 
-    FILE *fp = fopen(name, "w");
-    int i, j;
+    FILE *f;
+    int i;
+    int j;
 
-    if (fp == NULL)
+    f = fopen(name, "w");
+    if (f == NULL) {
+        printf("error\n");
         return;
+    }
 
-    /* نوشتن همه سلول‌ها */
+
+
+    
     for (i = 0; i < (*t).r; i++) {
         for (j = 0; j < (*t).c; j++) {
-            fprintf(fp, "%s %lf %s %d\n",
-                (*t).a[i][j].addr,
-                (*t).a[i][j].val,
-                (*t).a[i][j].form,
-                (*t).a[i][j].err);
+
+            /* آدرس سلول */
+            fprintf(f, "%s ", (*t).a[i][j].addr);
+
+            /* مقدار سلول */
+            fprintf(f, "%lf ", (*t).a[i][j].val);
+
+            /* فرمول سلول */
+            fprintf(f, "%s ", (*t).a[i][j].form);
+
+            /* خطا */
+            fprintf(f, "%d\n", (*t).a[i][j].err);
         }
     }
 
-    fclose(fp);
+    fclose(f);
 }
 
-/* خواندن اطلاعات از فایل */
+
 void load(table *t, const char *name) {
 
-    FILE *fp = fopen(name, "r");
-    int i, j;
+    FILE *f;
+    int i;
+    int j;
 
-    if (fp == NULL)
+
+    f = fopen(name, "r");
+    if (f == NULL) {
+        printf("file peyda nashod\n");
         return;
+    }
 
     for (i = 0; i < (*t).r; i++) {
         for (j = 0; j < (*t).c; j++) {
-            fscanf(fp, "%s %lf %s %d",
-                (*t).a[i][j].addr,
-                &((*t).a[i][j].val),
-                (*t).a[i][j].form,
-                &((*t).a[i][j].err));
+
+            /* آدرس سلول */
+            fscanf(f, "%s", (*t).a[i][j].addr);
+
+            /* مقدار سلول */
+            fscanf(f, "%lf", &((*t).a[i][j].val));
+
+            /* فرمول سلول */
+            fscanf(f, "%s", (*t).a[i][j].form);
+
+            /* خطا */
+            fscanf(f, "%d", &((*t).a[i][j].err));
         }
     }
 
-    fclose(fp);
+
+    fclose(f);
 }

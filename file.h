@@ -1,12 +1,12 @@
-#ifndef FILE_MANAGER_H
-#define FILE_MANAGER_H
+#ifndef FILE_H
+#define FILE_H
 
 #include "data.h"
 
-// ذخیره جدول
-void save_table_to_file(table *my_table, const char *filename);
+/* ذخیره کردن جدول تو فایل */
+void save(table *t, const char *name);
 
-// خواندن جدول
-void load_table_from_file(table *my_table, const char *filename);
+/* خواندن جدول از فایل */
+void load(table *t, const char *name);
 
 #endif

@@ -7,26 +7,69 @@
 int main() {
 
     table t;
+    int choice;
+    char ch;
+    int num;
+    char input[300];
 
-    // مقداردهی اولیه 
     start(&t);
 
-    // فرمول برای A1 
-    strcpy(t.a[0][0].form, "sin(3+2)");
-    t.a[0][0].has = 1;
-    t.a[0][0].val = calc(&t, t.a[0][0].form, &t.a[0][0].err);
+    while (1) {
 
-    // فرمول برای A2 
-    strcpy(t.a[1][0].form, "A1*2+sqrt(16)");
-    t.a[1][0].has = 1;
-    t.a[1][0].val = calc(&t, t.a[1][0].form, &t.a[1][0].err);
+        printf("\n1= write formule\n");
+        printf("2= watch valou of cell\n");
+        printf("3= save to file\n");
+        printf("4= exit\n");
+        printf(" entekhab kon: ");
+        scanf("%d", &choice);
 
-    // نمایش خروجی 
-    printf("A1 = %lf\n", t.a[0][0].val);
-    printf("A2 = %lf\n", t.a[1][0].val);
+        if (choice == 1) {
 
-    // ذخیره در فایل 
-    save(&t, "out.txt");
+            printf("address cell(example A1):");
+            scanf(" %c%d", &ch, &num);
+
+            printf("formule: ");
+            scanf("%s", input);
+
+            cell *p = find(&t, ch, num);
+            if (p == NULL) {
+                printf("wrong address\n");
+            } else {
+                strcpy((*p).form, input);
+                (*p).has = 1;
+                (*p).val = calc(&t, (*p).form, &(*p).err);
+
+                if ((*p).err)
+                    printf("error in formule\n");
+                else
+                    printf("saving\n");
+            }
+        }
+
+        else if (choice == 2) {
+
+            printf("address cell: ");
+            scanf(" %c%d", &ch, &num);
+
+            cell *p = find(&t, ch, num);
+            if (p == NULL)
+                printf("wrong address\n");
+            else
+                printf("valou = %lf\n", (*p).val);
+        }
+
+        else if (choice == 3) {
+            save(&t, "out.txt");
+            printf("saveing\n");
+        }
+
+        else if (choice == 4) {
+            break;
+        }
+        else {
+            printf("entekhab na moatabar\n");
+        }
+    }
 
     return 0;
 }
